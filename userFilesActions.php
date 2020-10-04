@@ -16,24 +16,50 @@
         </p>
     </form>
     <hr>
-    <!-- view file button -->
-    <form name= "view" action="viewFile.php" Method="GET">
-        <input type= "text" name= "fileName">
-        <input type="submit" value="view file">
-    </form>
 
-    <!--file button, not started yet -->
-    <form name= "remove" action="fileList.php" Method="POST">
-        <input type="submit" value="removefile">
-    </form>
-
-
-    <!-- <?php
-        // session_start()
-        // $user= $_SESSION['username']   
-        // //somehow display all users' files
-    ?> -->
     
+
+
+    <?php
+        session_start();
+        $user= $_SESSION['username'];   
+        // //somehow display all users' files
+
+    //     // // if $user's file exists,
+    //     // // print out all the file names 
+        $directoryfullpath =sprintf("/home/nadia/Mod2Secure/%s", $user);
+        $dir =opendir($directoryfullpath);
+         //echo $directoryfullpath;
+         
+        $fileList =scandir($directoryfullpath);
+ 
+       
+        $fileListArray = array_diff($fileList, array('..', '.'));
+        
+        foreach($fileListArray as $value){
+            //echo $value, '<br>';          
+            //view button
+            //echo $directoryfullpath.'/'.$value;
+            printf('<tr> 
+            <th>%s</th> 
+           <form action="viewFile.php" Method="POST" class = "buttons"> 
+            <input type="hidden" name= "view" value="%s">
+            <input type="submit" value="view file"></form></tr>', $value, $value) ;
+                
+            // remove button
+        
+            printf('<form action="removefile.php" Method="POST" class = "buttons">
+            <input type="hidden" name= "remove" value="%s">
+            <input type="submit" value="remove file"> 
+            </form>', $value) ;
+        }
+    
+    ?> 
+    <!-- logout html -->
+    <hr>
+    <form action= logout.php Method="POST">
+        <input type= "submit" value="logout">
+    </form>
 </body>
 
 </html>
