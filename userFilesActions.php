@@ -23,10 +23,8 @@
     <?php
         session_start();
         $user= $_SESSION['username'];   
-        // //somehow display all users' files
-
-    //     // // if $user's file exists,
-    //     // // print out all the file names 
+       
+         // // print out all the file names 
         $directoryfullpath =sprintf("/home/nadia/Mod2Secure/%s", $user);
         $dir =opendir($directoryfullpath);
          //echo $directoryfullpath;
@@ -37,9 +35,9 @@
         $fileListArray = array_diff($fileList, array('..', '.'));
         
         foreach($fileListArray as $value){
-            //echo $value, '<br>';          
+                     
             //view button
-            //echo $directoryfullpath.'/'.$value;
+            
             printf('<tr> 
             <th>%s</th> 
            <form action="viewFile.php" Method="POST" class = "buttons"> 
@@ -52,6 +50,15 @@
             <input type="hidden" name= "remove" value="%s">
             <input type="submit" value="remove file"> 
             </form>', $value) ;
+           
+            // share button
+            printf('<form action="share.php" Method="POST" class = "buttons">
+            <input type="hidden" name= "share" value="%s">
+            <input type="text" name="toUser" placeholder="enter recipient username">
+            <input type="submit" value="share file"> 
+            </form>', $value) ;
+
+            printf('<br>');
         }
     
     ?> 
